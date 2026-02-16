@@ -1,97 +1,26 @@
-<!--登录页面-->
+<!--登录页面 - 微信一键登录-->
 <view class="login-container">
   <view class="login-header">
     <text class="title">💰 财富追踪</text>
     <text class="subtitle">记录你的财富自由之路</text>
   </view>
 
-  <view class="login-form" wx:if="{{!showRegister}}">
-    <text class="form-title">登录</text>
-
-    <view class="form-group">
-      <input
-        type="text"
-        placeholder="邮箱"
-        bindinput="handleEmailChange"
-        value="{{email}}"
-      />
-    </view>
-
-    <view class="form-group">
-      <input
-        type="password"
-        placeholder="密码"
-        bindinput="handlePasswordChange"
-        value="{{password}}"
-      />
-    </view>
-
-    <button
-      class="btn-login"
-      bindtap="handleLogin"
-      loading="{{loading}}"
-      disabled="{{loading}}"
-    >
-      登录
-    </button>
+  <view class="login-form">
+    <text class="form-title">欢迎使用</text>
+    <text class="description">使用微信账号一键登录</text>
 
     <button class="btn-wechat" bindtap="handleWechatLogin" loading="{{loading}}">
-      <text>🔐</text>
-      微信一键登录
+      <text>🔐 微信一键登录</text>
     </button>
 
-    <view class="toggle-mode">
-      还没有账户？
-      <text class="toggle-text" bindtap="toggleMode">立即注册</text>
+    <view class="error-message" wx:if="{{error}}">
+      {{error}}
+      <text class="retry-text" bindtap="handleWechatLogin">点击重试</text>
     </view>
   </view>
 
-  <view class="login-form" wx:else>
-    <text class="form-title">注册</text>
-
-    <view class="form-group">
-      <input
-        type="text"
-        placeholder="姓名"
-        bindinput="handleNameChange"
-        value="{{name}}"
-      />
-    </view>
-
-    <view class="form-group">
-      <input
-        type="text"
-        placeholder="邮箱"
-        bindinput="handleEmailChange"
-        value="{{email}}"
-      />
-    </view>
-
-    <view class="form-group">
-      <input
-        type="password"
-        placeholder="密码"
-        bindinput="handlePasswordChange"
-        value="{{password}}"
-      />
-    </view>
-
-    <button
-      class="btn-login"
-      bindtap="handleRegister"
-      loading="{{loading}}"
-      disabled="{{loading}}"
-    >
-      注册
-    </button>
-
-    <view class="toggle-mode">
-      已有账户？
-      <text class="toggle-text" bindtap="toggleMode">立即登录</text>
-    </view>
-  </view>
-
-  <view class="error-message" wx:if="{{error}}">
-    {{error}}
+  <view class="tips">
+    <text>✓ 首次登录自动注册账号</text>
+    <text>✓ 安全快捷，无需密码</text>
   </view>
 </view>

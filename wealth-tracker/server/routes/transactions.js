@@ -133,27 +133,27 @@ router.get('/', async (req, res) => {
     let paramCount = 2;
 
     if (type && ['income', 'expense'].includes(type)) {
+      paramCount++;
       whereConditions.push(`type = $${paramCount}`);
       params.push(type);
-      paramCount++;
     }
 
     if (category_id) {
+      paramCount++;
       whereConditions.push(`category_id = $${paramCount}`);
       params.push(category_id);
-      paramCount++;
     }
 
     if (start_date) {
+      paramCount++;
       whereConditions.push(`transaction_date >= $${paramCount}`);
       params.push(start_date);
-      paramCount++;
     }
 
     if (end_date) {
+      paramCount++;
       whereConditions.push(`transaction_date <= $${paramCount}`);
       params.push(end_date);
-      paramCount++;
     }
 
     const whereClause = whereConditions.join(' AND ');
@@ -171,6 +171,11 @@ router.get('/', async (req, res) => {
     const total = parseInt(countResult.rows[0].total);
 
     // 获取分页数据
+    paramCount++;
+    const limitParamIndex = paramCount;
+    paramCount++;
+    const offsetParamIndex = paramCount;
+
     const result = await query(
       `SELECT
         t.*,
@@ -179,7 +184,7 @@ router.get('/', async (req, res) => {
        LEFT JOIN categories c ON t.category_id = c.id
        WHERE ${whereClause}
        ORDER BY ${sortField} ${orderDir}
-       LIMIT $${paramCount} OFFSET $${paramCount + 1}`,
+       LIMIT $${limitParamIndex} OFFSET $${offsetParamIndex}`,
       [...params, limitNum, offset]
     );
 

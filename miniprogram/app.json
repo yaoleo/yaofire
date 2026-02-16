@@ -23,33 +23,23 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "assets/icons/home.png",
-        "selectedIconPath": "assets/icons/home-selected.png"
+        "text": "💰 首页"
       },
       {
         "pagePath": "pages/transactions/index",
-        "text": "交易",
-        "iconPath": "assets/icons/transaction.png",
-        "selectedIconPath": "assets/icons/transaction-selected.png"
+        "text": "💳 交易"
       },
       {
         "pagePath": "pages/assets/index",
-        "text": "资产",
-        "iconPath": "assets/icons/asset.png",
-        "selectedIconPath": "assets/icons/asset-selected.png"
+        "text": "🏦 资产"
       },
       {
         "pagePath": "pages/reports/index",
-        "text": "报表",
-        "iconPath": "assets/icons/report.png",
-        "selectedIconPath": "assets/icons/report-selected.png"
+        "text": "📊 报表"
       },
       {
         "pagePath": "pages/profile/index",
-        "text": "我的",
-        "iconPath": "assets/icons/profile.png",
-        "selectedIconPath": "assets/icons/profile-selected.png"
+        "text": "👤 我的"
       }
     ]
   },

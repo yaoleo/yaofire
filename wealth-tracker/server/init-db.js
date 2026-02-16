@@ -8,12 +8,12 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// 优先使用 DATABASE_URL，否则用单个变量
+const connectionString = process.env.DATABASE_URL ||
+  `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+
 const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || 'wealth_tracker',
+  connectionString,
 });
 
 async function initDatabase() {

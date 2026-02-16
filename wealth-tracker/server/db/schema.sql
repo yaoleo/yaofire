@@ -207,32 +207,8 @@ CREATE INDEX idx_audit_logs_created_at ON audit_logs(created_at);
 -- ============================================
 -- 8. Default Categories (初始化默认分类)
 -- ============================================
--- 这个脚本在创建新用户时调用
-
--- 收入分类
-INSERT INTO categories (user_id, name, type, icon, is_default, order_index)
-VALUES
-  (NULL, '工资', 'income', '💼', TRUE, 1),
-  (NULL, '投资收益', 'income', '📈', TRUE, 2),
-  (NULL, '奖金', 'income', '🎁', TRUE, 3),
-  (NULL, '兼职', 'income', '🔧', TRUE, 4),
-  (NULL, '其他收入', 'income', '➕', TRUE, 5)
-ON CONFLICT DO NOTHING;
-
--- 支出分类
-INSERT INTO categories (user_id, name, type, icon, is_default, order_index)
-VALUES
-  (NULL, '食品', 'expense', '🍔', TRUE, 1),
-  (NULL, '交通', 'expense', '🚗', TRUE, 2),
-  (NULL, '房租', 'expense', '🏠', TRUE, 3),
-  (NULL, '娱乐', 'expense', '🎮', TRUE, 4),
-  (NULL, '购物', 'expense', '🛍️', TRUE, 5),
-  (NULL, '医疗', 'expense', '⚕️', TRUE, 6),
-  (NULL, '教育', 'expense', '📚', TRUE, 7),
-  (NULL, '电费', 'expense', '💡', TRUE, 8),
-  (NULL, '网费', 'expense', '📡', TRUE, 9),
-  (NULL, '其他支出', 'expense', '➖', TRUE, 10)
-ON CONFLICT DO NOTHING;
+-- 默认分类在创建新用户时由触发器自动创建
+-- （见下方的 create_default_categories_for_user 函数）
 
 -- ============================================
 -- 数据关系图

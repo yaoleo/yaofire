@@ -2,8 +2,8 @@
 
 App({
   globalData: {
-    baseUrl: 'http://localhost:3001/api',
-    // 生产环境改为: 'https://api.example.com/api'
+    baseUrl: 'https://yaofire.up.railway.app/api',
+    // 本地开发: 'http://localhost:3001/api'
     authToken: wx.getStorageSync('authToken') || null,
     userInfo: wx.getStorageSync('userInfo') || null,
   },
@@ -11,13 +11,50 @@ App({
   onLaunch() {
     console.log('🚀 小程序启动')
 
-    // 检查登录状态
+    // 检查是否已有有效的 token
     const token = wx.getStorageSync('authToken')
     if (token) {
       this.globalData.authToken = token
       // 验证 token 是否有效
       this.validateToken()
+    } else {
+      // 没有 token，自动执行微信登录
+      this.performWechatLogin()
     }
+  },
+
+  // 执行微信登录
+  performWechatLogin() {
+    wx.login({
+      success: async (loginRes) => {
+        if (!loginRes.code) {
+          console.error('❌ 获取微信 code 失败')
+          return
+        }
+
+        try {
+          const response = await this.request('/auth/wechat', {
+            method: 'POST',
+            data: { code: loginRes.code },
+          })
+
+          if (response.success) {
+            const { token, user } = response.data
+            wx.setStorageSync('authToken', token)
+            wx.setStorageSync('userInfo', user)
+            this.globalData.authToken = token
+            this.globalData.userInfo = user
+            console.log('✅ 微信登录成功！')
+          }
+        } catch (error) {
+          console.error('❌ 微信登录失败:', error.message)
+          // 登录失败时，用户手动点击登录页面的微信登录按钮重试
+        }
+      },
+      fail: (err) => {
+        console.error('❌ wx.login 失败:', err)
+      },
+    })
   },
 
   validateToken() {

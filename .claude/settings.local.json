@@ -13,7 +13,9 @@
       "Bash(/c/Users/k/claude-project/yaofire/miniprogram/README.md:*)",
       "Bash(__NEW_LINE_a138c1e047a4bedd__ echo \"✅ 小程序项目结构创建完成！\")",
       "Bash(psql:*)",
-      "Bash(node init-db.js:*)"
+      "Bash(node init-db.js:*)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:xSWkCTvUWsACscDgWmaEGuDSAFxDUaCC@caboose.proxy.rlwy.net:59977/railway\" node:*)",
+      "Bash(node -e:*)"
     ]
   }
 }
