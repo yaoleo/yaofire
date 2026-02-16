@@ -1,0 +1,88 @@
+<!-- 股票详情页 -->
+<view class="page">
+  <!-- 头部信息 -->
+  <view class="header" wx:if="{{stock && latestPrice}}">
+    <view class="stock-title">
+      <text class="symbol">{{stock.symbol}}</text>
+      <text class="name">{{stock.name}}</text>
+    </view>
+
+    <view class="price-info">
+      <text class="current-price">${{latestPrice.close.toFixed(2)}}</text>
+      <text class="change {{latestPrice.changePercent >= 0 ? 'up' : 'down'}}">
+        {{latestPrice.changePercent >= 0 ? '📈 +' : '📉 '}}{{latestPrice.changePercent.toFixed(2)}}%
+      </text>
+    </view>
+
+    <view class="price-details">
+      <view class="detail-item">
+        <text class="label">开盘</text>
+        <text class="value">${{latestPrice.open.toFixed(2)}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="label">最高</text>
+        <text class="value">${{latestPrice.high.toFixed(2)}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="label">最低</text>
+        <text class="value">${{latestPrice.low.toFixed(2)}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="label">成交量</text>
+        <text class="value">{{(latestPrice.volume / 1000000).toFixed(1)}M</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error" wx:if="{{error && !loading}}">
+    <text>{{error}}</text>
+    <button bindtap="loadDetail">重试</button>
+  </view>
+
+  <!-- 历史数据 -->
+  <view class="history-section" wx:if="{{!loading && history.length > 0}}">
+    <view class="section-title">
+      <text>近 30 日价格走势</text>
+    </view>
+
+    <view class="price-list">
+      <view class="price-item" wx:for="{{history}}" wx:key="date">
+        <view class="item-date">
+          <text>{{item.date}}</text>
+        </view>
+        <view class="item-price">
+          <text class="close">${{item.close.toFixed(2)}}</text>
+          <text class="change {{item.changePercent >= 0 ? 'up' : 'down'}}">
+            {{item.changePercent >= 0 ? '+' : ''}}{{item.changePercent.toFixed(2)}}%
+          </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 信息面板 -->
+  <view class="info-panel" wx:if="{{stock}}">
+    <view class="info-row">
+      <text class="label">市场</text>
+      <text class="value">{{stock.market}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">行业</text>
+      <text class="value">{{stock.sector}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">细分行业</text>
+      <text class="value">{{stock.industry}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">货币</text>
+      <text class="value">{{stock.currency}}</text>
+    </view>
+  </view>
+</view>
