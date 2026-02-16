@@ -1,26 +1,116 @@
-name: Deploy to Railway
+name: 🚀 Deploy to Railway
 
 on:
   push:
     branches:
       - main
       - develop
+  pull_request:
+    branches:
+      - main
+
+env:
+  RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+  RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
 
 jobs:
   deploy:
+    name: Deploy Application
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      deployments: write
+
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Use Railway CLI
-        uses: miephon/actions-railway@v1
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
         with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          fetch-depth: 0
 
-      - name: Deploy
+      - name: 📋 Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 🔍 Validate project structure
         run: |
+          echo "✓ Checking Railway configuration..."
+          if [ ! -f "Procfile" ]; then
+            echo "❌ Procfile not found!"
+            exit 1
+          fi
+          if [ ! -f "railway.json" ]; then
+            echo "❌ railway.json not found!"
+            exit 1
+          fi
+          if [ ! -f "wealth-tracker/server/package.json" ]; then
+            echo "❌ Server package.json not found!"
+            exit 1
+          fi
+          echo "✓ All required files found"
+
+      - name: 🔐 Validate secrets
+        run: |
+          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then
+            echo "❌ RAILWAY_TOKEN secret is not set!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.RAILWAY_PROJECT_ID }}" ]; then
+            echo "❌ RAILWAY_PROJECT_ID secret is not set!"
+            exit 1
+          fi
+          echo "✓ All required secrets are configured"
+
+      - name: 📦 Install Railway CLI
+        run: |
+          npm install -g @railway/cli
+          railway --version
+          echo "✓ Railway CLI installed"
+
+      - name: 🔗 Link Railway project
+        run: |
+          echo "Linking to Railway project..."
           railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+          echo "✓ Project linked successfully"
+
+      - name: 🚀 Deploy to Railway
+        run: |
+          echo "Starting deployment..."
           railway up --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          echo "✓ Deployment initiated"
+          sleep 5
+          echo "Checking deployment status..."
+          railway status
+        timeout-minutes: 15
+
+      - name: ✅ Create deployment status
+        if: success()
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "🌐 Service URL: https://yaofire.up.railway.app"
+          echo "📊 View logs: https://railway.app/project/${{ secrets.RAILWAY_PROJECT_ID }}"
+
+      - name: ❌ Deployment failed
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "📋 Check Railway logs:"
+          railway logs --tail 50 || true
+
+      - name: 📧 Notify on success
+        if: success()
+        run: |
+          echo "✅ Successfully deployed to Railway"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Author: ${{ github.actor }}"
+
+      - name: 📧 Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Check the logs above for details"

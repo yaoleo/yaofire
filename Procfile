@@ -1,1 +1,1 @@
-web: cd wealth-tracker/server && npm install && npm start
+web: cd wealth-tracker/server && npm ci && npm start

@@ -2,7 +2,7 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "nixpacks",
-    "buildCommand": "cd wealth-tracker/server && npm install"
+    "buildCommand": "cd wealth-tracker/server && npm ci"
   },
   "deploy": {
     "startCommand": "cd wealth-tracker/server && npm start",
