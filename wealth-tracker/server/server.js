@@ -6,6 +6,9 @@ import authRoutes from './routes/auth.js';
 import transactionRoutes from './routes/transactions.js';
 import assetRoutes from './routes/assets.js';
 import reportRoutes from './routes/reports.js';
+import stockRoutes from './routes/stocks.js';
+import { testConnection } from './services/alphavantage.js';
+import { scheduleDailySync } from './services/stockSync.js';
 
 dotenv.config();
 
@@ -38,12 +41,12 @@ app.get('/api/health', (req, res) => {
 app.get('/api/status', (req, res) => {
   res.json({
     status: 'ok',
-    server: 'Wealth Tracker API v1.0',
+    server: 'Stock Price Tracker API v1.0',
     timestamp: new Date().toISOString(),
     endpoints: {
+      stocks: '/api/stocks',
       auth: '/api/auth',
       transactions: '/api/transactions',
-      categories: '/api/categories',
       assets: '/api/assets',
       reports: '/api/reports'
     }
@@ -53,6 +56,7 @@ app.get('/api/status', (req, res) => {
 // ============================================
 // API Routes
 // ============================================
+app.use('/api/stocks', stockRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/assets', assetRoutes);
@@ -111,20 +115,34 @@ app.use((err, req, res, next) => {
 // ============================================
 // Server Startup
 // ============================================
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log('');
   console.log('╔════════════════════════════════════════╗');
-  console.log('║   Wealth Tracker API Server Started    ║');
+  console.log('║   Stock Price Tracker API Started      ║');
   console.log('╚════════════════════════════════════════╝');
   console.log('');
   console.log(`📍 Server Port:    ${PORT}`);
   console.log(`🌍 Environment:    ${process.env.NODE_ENV || 'development'}`);
   console.log(`🗄️  Database:       ${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
   console.log('');
-  console.log('📡 Endpoints:');
+  console.log('📡 API Endpoints:');
   console.log(`  ✓ Health:        http://localhost:${PORT}/api/health`);
   console.log(`  ✓ Status:        http://localhost:${PORT}/api/status`);
-  console.log(`  ✓ Auth:          http://localhost:${PORT}/api/auth`);
+  console.log(`  ✓ Stocks:        http://localhost:${PORT}/api/stocks`);
+  console.log('');
+
+  // 初始化 Alpha Vantage API 连接
+  console.log('🔌 Initializing Alpha Vantage API...');
+  const apiConnected = await testConnection();
+
+  if (apiConnected && process.env.NODE_ENV === 'production') {
+    // 仅在生产环境设置每日同步
+    console.log('⏰ Scheduling daily stock price sync...');
+    scheduleDailySync();
+  }
+
+  console.log('');
+  console.log('✅ Server ready!');
   console.log('');
 });
 

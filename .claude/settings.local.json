@@ -15,7 +15,8 @@
       "Bash(psql:*)",
       "Bash(node init-db.js:*)",
       "Bash(DATABASE_URL=\"postgresql://postgres:xSWkCTvUWsACscDgWmaEGuDSAFxDUaCC@caboose.proxy.rlwy.net:59977/railway\" node:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "WebSearch"
     ]
   }
 }
