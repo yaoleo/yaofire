@@ -32,10 +32,28 @@ Page({
       const response = await app.stocks.getDetail(this.data.symbol)
 
       const data = response.data
+
+      // 格式化数据供模板使用
+      const formattedLatestPrice = data.latestPrice ? {
+        ...data.latestPrice,
+        closeStr: data.latestPrice.close.toFixed(2),
+        openStr: data.latestPrice.open.toFixed(2),
+        highStr: data.latestPrice.high.toFixed(2),
+        lowStr: data.latestPrice.low.toFixed(2),
+        changePercentStr: data.latestPrice.changePercent.toFixed(2),
+        volumeStr: (data.latestPrice.volume / 1000000).toFixed(1)
+      } : null
+
+      const formattedHistory = data.history.map(item => ({
+        ...item,
+        closeStr: item.close.toFixed(2),
+        changePercentStr: item.changePercent.toFixed(2)
+      }))
+
       this.setData({
         stock: data.stock,
-        latestPrice: data.latestPrice,
-        history: data.history,
+        latestPrice: formattedLatestPrice,
+        history: formattedHistory,
         loading: false
       })
 

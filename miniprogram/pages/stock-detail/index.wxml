@@ -8,28 +8,28 @@
     </view>
 
     <view class="price-info">
-      <text class="current-price">${{latestPrice.close.toFixed(2)}}</text>
+      <text class="current-price">${{latestPrice.closeStr}}</text>
       <text class="change {{latestPrice.changePercent >= 0 ? 'up' : 'down'}}">
-        {{latestPrice.changePercent >= 0 ? '📈 +' : '📉 '}}{{latestPrice.changePercent.toFixed(2)}}%
+        {{latestPrice.changePercent >= 0 ? '📈 +' : '📉 '}}{{latestPrice.changePercentStr}}%
       </text>
     </view>
 
     <view class="price-details">
       <view class="detail-item">
         <text class="label">开盘</text>
-        <text class="value">${{latestPrice.open.toFixed(2)}}</text>
+        <text class="value">${{latestPrice.openStr}}</text>
       </view>
       <view class="detail-item">
         <text class="label">最高</text>
-        <text class="value">${{latestPrice.high.toFixed(2)}}</text>
+        <text class="value">${{latestPrice.highStr}}</text>
       </view>
       <view class="detail-item">
         <text class="label">最低</text>
-        <text class="value">${{latestPrice.low.toFixed(2)}}</text>
+        <text class="value">${{latestPrice.lowStr}}</text>
       </view>
       <view class="detail-item">
         <text class="label">成交量</text>
-        <text class="value">{{(latestPrice.volume / 1000000).toFixed(1)}}M</text>
+        <text class="value">{{latestPrice.volumeStr}}M</text>
       </view>
     </view>
   </view>
@@ -57,9 +57,9 @@
           <text>{{item.date}}</text>
         </view>
         <view class="item-price">
-          <text class="close">${{item.close.toFixed(2)}}</text>
+          <text class="close">${{item.closeStr}}</text>
           <text class="change {{item.changePercent >= 0 ? 'up' : 'down'}}">
-            {{item.changePercent >= 0 ? '+' : ''}}{{item.changePercent.toFixed(2)}}%
+            {{item.changePercent >= 0 ? '+' : ''}}{{item.changePercentStr}}%
           </text>
         </view>
       </view>
