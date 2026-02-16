@@ -29,7 +29,7 @@ Page({
     this.setData({ loading: true, error: '' })
 
     try {
-      const response = await app.stocks.getDetail(this.data.symbol)
+      const response = await app.getStockDetail(this.data.symbol)
 
       const data = response.data
 

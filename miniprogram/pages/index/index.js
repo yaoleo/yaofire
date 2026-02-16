@@ -32,7 +32,7 @@ Page({
     this.setData({ loading: true, error: '' })
 
     try {
-      const response = await app.stocks.getList()
+      const response = await app.getStockList()
 
       this.setData({
         stocks: response.data.stocks,
@@ -63,7 +63,7 @@ Page({
     wx.showLoading({ title: '加载中...' })
 
     try {
-      const response = await app.stocks.getTopGainers()
+      const response = await app.getTopGainers()
 
       wx.hideLoading()
 

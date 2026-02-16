@@ -40,18 +40,19 @@ App({
   },
 
   // 股票相关 API
-  stocks: {
-    // 获取 10 只默认股票
-    getList: () => this.request('/stocks'),
+  getStockList() {
+    return this.request('/stocks')
+  },
 
-    // 获取单只股票详情
-    getDetail: (symbol) => this.request(`/stocks/${symbol}`),
+  getStockDetail(symbol) {
+    return this.request(`/stocks/${symbol}`)
+  },
 
-    // 获取历史数据
-    getHistory: (symbol, days = 30, page = 1) =>
-      this.request(`/stocks/${symbol}/history?days=${days}&page=${page}`),
+  getStockHistory(symbol, days = 30, page = 1) {
+    return this.request(`/stocks/${symbol}/history?days=${days}&page=${page}`)
+  },
 
-    // 获取涨幅排行
-    getTopGainers: () => this.request('/stocks/stats/gainers'),
+  getTopGainers() {
+    return this.request('/stocks/stats/gainers')
   },
 })
