@@ -1,0 +1,14 @@
+{
+  "name": "wealth-tracker-monorepo",
+  "version": "1.0.0",
+  "description": "Wealth Tracker - Full Stack Application",
+  "scripts": {
+    "install-all": "cd wealth-tracker && npm install && cd server && npm install",
+    "start": "cd wealth-tracker/server && npm start",
+    "dev:backend": "cd wealth-tracker/server && npm start",
+    "dev:frontend": "cd wealth-tracker && npm run dev"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
