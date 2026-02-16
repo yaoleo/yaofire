@@ -1,7 +1,8 @@
 // API 客户端
 // 与后端通信的核心模块
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+// 使用线上后端 API
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://yaofire.up.railway.app/api';
 
 // 存储 token
 let authToken = localStorage.getItem('authToken') || null;
