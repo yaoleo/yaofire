@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 个人财富管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* 总资产卡片 */
+        .wealth-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .wealth-card h2 {
+            margin: 0 0 10px 0;
+            color: #666;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wealth-amount {
+            font-size: 3em;
+            color: #667eea;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .wealth-info {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* 表单卡片 */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-card h3 {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        /* 列表卡片 */
+        .list-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-card h3 {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .empty-message {
+            color: #999;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .asset-list {
+            list-style: none;
+        }
+
+        .asset-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+
+        .asset-item:hover {
+            background: #f9f9f9;
+        }
+
+        .asset-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .asset-rank {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .asset-details {
+            flex: 1;
+        }
+
+        .asset-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .asset-date {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .asset-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: right;
+        }
+
+        .asset-amount {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #667eea;
+            min-width: 100px;
+        }
+
+        .asset-percentage {
+            color: #999;
+            font-size: 0.9em;
+            min-width: 50px;
+        }
+
+        .btn-delete {
+            padding: 6px 12px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-delete:hover {
+            background: #ff5252;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .wealth-amount {
+                font-size: 2em;
+            }
+
+            .asset-item {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .asset-info {
+                width: 100%;
+            }
+
+            .asset-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .asset-percentage {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>💰 个人财富管理</h1>
+            <p>记录你的财富自由之路</p>
+        </header>
+
+        <main>
+            <!-- 总资产卡片 -->
+            <div class="wealth-card">
+                <h2>总资产</h2>
+                <div class="wealth-amount" id="totalWealth">¥ 0.00</div>
+                <p class="wealth-info" id="assetCount">0 项资产</p>
+            </div>
+
+            <!-- 添加资产表单 -->
+            <div class="form-card">
+                <h3>添加新资产</h3>
+                <div class="form-group">
+                    <input
+                        type="text"
+                        id="assetName"
+                        placeholder="资产名称（如：银行卡、房产、股票...）"
+                        onkeypress="event.key === 'Enter' && addAsset()"
+                    />
+                </div>
+                <div class="form-group">
+                    <input
+                        type="number"
+                        id="assetAmount"
+                        placeholder="金额"
+                        onkeypress="event.key === 'Enter' && addAsset()"
+                    />
+                </div>
+                <button class="btn-primary" onclick="addAsset()">添加资产</button>
+            </div>
+
+            <!-- 资产列表 -->
+            <div class="list-card">
+                <h3>资产列表</h3>
+                <div id="assetListContainer">
+                    <p class="empty-message">还没有添加任何资产，开始记录你的财富吧！</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let assets = [];
+
+        // 从 localStorage 加载数据
+        function loadData() {
+            const saved = localStorage.getItem('wealthData');
+            if (saved) {
+                try {
+                    assets = JSON.parse(saved);
+                } catch (e) {
+                    console.error('Failed to load data:', e);
+                }
+            }
+            render();
+        }
+
+        // 保存到 localStorage
+        function saveData() {
+            localStorage.setItem('wealthData', JSON.stringify(assets));
+        }
+
+        // 添加资产
+        function addAsset() {
+            const nameInput = document.getElementById('assetName');
+            const amountInput = document.getElementById('assetAmount');
+            const name = nameInput.value.trim();
+            const amount = amountInput.value.trim();
+
+            if (name && amount) {
+                assets.push({
+                    id: Date.now(),
+                    name: name,
+                    amount: parseFloat(amount),
+                    date: new Date().toLocaleDateString('zh-CN')
+                });
+                saveData();
+                nameInput.value = '';
+                amountInput.value = '';
+                render();
+                nameInput.focus();
+            }
+        }
+
+        // 删除资产
+        function deleteAsset(id) {
+            assets = assets.filter(asset => asset.id !== id);
+            saveData();
+            render();
+        }
+
+        // 计算总资产
+        function getTotalWealth() {
+            return assets.reduce((sum, asset) => sum + asset.amount, 0);
+        }
+
+        // 按金额排序（从大到小）
+        function getSortedAssets() {
+            return [...assets].sort((a, b) => b.amount - a.amount);
+        }
+
+        // 渲染
+        function render() {
+            const totalWealth = getTotalWealth();
+            const sortedAssets = getSortedAssets();
+
+            // 更新总资产显示
+            document.getElementById('totalWealth').textContent =
+                '¥ ' + totalWealth.toFixed(2);
+            document.getElementById('assetCount').textContent =
+                assets.length + ' 项资产';
+
+            // 更新列表
+            const container = document.getElementById('assetListContainer');
+
+            if (sortedAssets.length === 0) {
+                container.innerHTML = '<p class="empty-message">还没有添加任何资产，开始记录你的财富吧！</p>';
+            } else {
+                const listHTML = sortedAssets.map((asset, index) => `
+                    <ul class="asset-list">
+                        <li class="asset-item">
+                            <div class="asset-info">
+                                <div class="asset-rank">#${index + 1}</div>
+                                <div class="asset-details">
+                                    <div class="asset-name">${asset.name}</div>
+                                    <div class="asset-date">${asset.date}</div>
+                                </div>
+                            </div>
+                            <div class="asset-right">
+                                <div class="asset-amount">¥ ${asset.amount.toFixed(2)}</div>
+                                <div class="asset-percentage">${((asset.amount / totalWealth) * 100).toFixed(1)}%</div>
+                                <button class="btn-delete" onclick="deleteAsset(${asset.id})">删除</button>
+                            </div>
+                        </li>
+                    </ul>
+                `).join('');
+                container.innerHTML = listHTML;
+            }
+        }
+
+        // 页面加载时初始化
+        loadData();
+    </script>
+</body>
+</html>

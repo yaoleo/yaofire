@@ -1,0 +1,26 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Railway CLI
+        uses: miephon/actions-railway@v1
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Deploy
+        run: |
+          railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+          railway up --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
