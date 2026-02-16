@@ -331,9 +331,11 @@ router.post('/wechat', async (req, res) => {
       await query('UPDATE users SET last_login_at = NOW() WHERE id = $1', [user.id]);
     } else {
       // 新用户，创建账户
+      // 为微信用户生成随机密码哈希（微信用户无需密码登录）
+      const randomPassword = await bcrypt.hash(`wechat_${openid}`, 10);
       result = await query(
-        'INSERT INTO users (wechat_openid, name) VALUES ($1, $2) RETURNING id, email, name',
-        [openid, `User_${Date.now()}`]
+        'INSERT INTO users (wechat_openid, name, password_hash) VALUES ($1, $2, $3) RETURNING id, email, name',
+        [openid, `User_${Date.now()}`, randomPassword]
       );
       user = result.rows[0];
     }
