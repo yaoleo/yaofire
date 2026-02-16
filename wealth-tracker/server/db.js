@@ -7,13 +7,17 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// 优先使用 DATABASE_URL（Railway 标准变量）
+const connectionString =
+  process.env.DATABASE_URL ||
+  `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+
+console.log('📍 数据库连接:', connectionString.replace(/:[^@]*@/, ':****@'));
+
 // 创建连接池
 const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'password',
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || 'wealth_tracker',
+  connectionString,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
 
 // 连接错误处理
