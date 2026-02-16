@@ -1,0 +1,9 @@
+{
+  "desc": "Wealth Tracker Mini Program",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "pages/*"
+    }
+  ]
+}

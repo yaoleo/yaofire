@@ -1,0 +1,83 @@
+<!--首页 - 仪表板-->
+<view class="index-container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">💰 财富追踪</text>
+    <text class="subtitle">你好，{{userInfo.name}}</text>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-container" wx:if="{{!loading && summary}}">
+    <view class="stat-card income">
+      <text class="label">本月收入</text>
+      <text class="value">¥{{summary.income}}</text>
+    </view>
+
+    <view class="stat-card expense">
+      <text class="label">本月支出</text>
+      <text class="value">¥{{summary.expense}}</text>
+    </view>
+
+    <view class="stat-card net">
+      <text class="label">净收入</text>
+      <text class="value">¥{{summary.net}}</text>
+    </view>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 快速操作 -->
+  <view class="quick-actions">
+    <view class="action-item" bindtap="goToAddTransaction">
+      <text class="icon">➕</text>
+      <text class="text">记录交易</text>
+    </view>
+
+    <view class="action-item" bindtap="goToTransactions">
+      <text class="icon">📋</text>
+      <text class="text">交易列表</text>
+    </view>
+
+    <view class="action-item" bindtap="goToAssets">
+      <text class="icon">💎</text>
+      <text class="text">资产管理</text>
+    </view>
+
+    <view class="action-item" bindtap="goToReports">
+      <text class="icon">📊</text>
+      <text class="text">数据报表</text>
+    </view>
+  </view>
+
+  <!-- 最近交易 -->
+  <view class="recent-section">
+    <view class="section-header">
+      <text class="title">最近交易</text>
+      <navigator url="/pages/transactions/index" class="link">查看更多</navigator>
+    </view>
+
+    <view class="recent-list" wx:if="{{recentTransactions && recentTransactions.length}}">
+      <view class="list-item" wx:for="{{recentTransactions}}" wx:key="id">
+        <view class="item-left">
+          <text class="item-title">{{item.category_name}}</text>
+          <text class="item-date">{{item.transaction_date}}</text>
+        </view>
+        <view class="item-right">
+          <text class="item-amount {{item.type}}">{{item.type === 'income' ? '+' : '-'}}¥{{item.amount}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty" wx:if="{{!recentTransactions || !recentTransactions.length}}">
+      <text>暂无交易记录</text>
+    </view>
+  </view>
+
+  <!-- 浮动按钮 -->
+  <view class="fab" bindtap="goToAddTransaction">
+    <text>➕</text>
+  </view>
+</view>

@@ -1,0 +1,216 @@
+.index-container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding-bottom: 100px;
+}
+
+/* 头部 */
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px 20px 20px;
+  text-align: center;
+}
+
+.header .title {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.header .subtitle {
+  display: block;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* 统计卡片 */
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px 10px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card .label {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.stat-card .value {
+  display: block;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stat-card.income .value {
+  color: #22c55e;
+}
+
+.stat-card.expense .value {
+  color: #ef4444;
+}
+
+.stat-card.net .value {
+  color: #667eea;
+}
+
+/* 快速操作 */
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.action-item {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.action-item .icon {
+  font-size: 28px;
+}
+
+.action-item .text {
+  font-size: 12px;
+  color: #333;
+}
+
+/* 最近交易 */
+.recent-section {
+  padding: 15px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header .title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.link {
+  font-size: 12px;
+  color: #667eea;
+  text-decoration: none;
+}
+
+.recent-list {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-item {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.item-left {
+  flex: 1;
+}
+
+.item-title {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.item-date {
+  display: block;
+  font-size: 12px;
+  color: #999;
+}
+
+.item-right {
+  text-align: right;
+}
+
+.item-amount {
+  display: block;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.item-amount.income {
+  color: #22c55e;
+}
+
+.item-amount.expense {
+  color: #ef4444;
+}
+
+/* 加载和空状态 */
+.loading,
+.empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #999;
+  background: white;
+  margin: 15px;
+  border-radius: 8px;
+}
+
+/* 浮动按钮 */
+.fab {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 99;
+}
+
+/* 响应式 */
+@media (max-width: 375px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 15px;
+  }
+}

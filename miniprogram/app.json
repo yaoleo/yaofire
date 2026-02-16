@@ -1,0 +1,58 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/index/index",
+    "pages/transactions/index",
+    "pages/transactions/add",
+    "pages/assets/index",
+    "pages/reports/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#667eea",
+    "navigationBarTitleText": "财富追踪",
+    "navigationBarTextStyle": "white",
+    "navigationStyle": "default"
+  },
+  "tabBar": {
+    "borderStyle": "black",
+    "color": "#999",
+    "selectedColor": "#667eea",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-selected.png"
+      },
+      {
+        "pagePath": "pages/transactions/index",
+        "text": "交易",
+        "iconPath": "assets/icons/transaction.png",
+        "selectedIconPath": "assets/icons/transaction-selected.png"
+      },
+      {
+        "pagePath": "pages/assets/index",
+        "text": "资产",
+        "iconPath": "assets/icons/asset.png",
+        "selectedIconPath": "assets/icons/asset-selected.png"
+      },
+      {
+        "pagePath": "pages/reports/index",
+        "text": "报表",
+        "iconPath": "assets/icons/report.png",
+        "selectedIconPath": "assets/icons/report-selected.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-selected.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

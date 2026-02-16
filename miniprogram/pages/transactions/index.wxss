@@ -1,0 +1,73 @@
+.page {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+.header .title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.filter {
+  padding: 15px;
+}
+.picker {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  color: #333;
+}
+.list {
+  padding: 15px;
+}
+.list-item {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.item-title {
+  display: block;
+  font-weight: 500;
+  color: #333;
+}
+.item-date {
+  display: block;
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+}
+.item-amount {
+  font-weight: bold;
+  font-size: 16px;
+}
+.item-amount.income { color: #22c55e; }
+.item-amount.expense { color: #ef4444; }
+.empty, .loading {
+  padding: 40px 20px;
+  text-align: center;
+  color: #999;
+}
+.fab {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 99;
+}
