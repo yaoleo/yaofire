@@ -3,6 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import pool from './db.js';
 import authRoutes from './routes/auth.js';
+import transactionRoutes from './routes/transactions.js';
+import assetRoutes from './routes/assets.js';
+import reportRoutes from './routes/reports.js';
 
 dotenv.config();
 
@@ -51,12 +54,9 @@ app.get('/api/status', (req, res) => {
 // API Routes
 // ============================================
 app.use('/api/auth', authRoutes);
-
-// TODO: 下一步添加其他路由
-// app.use('/api/transactions', transactionRoutes);
-// app.use('/api/categories', categoryRoutes);
-// app.use('/api/assets', assetRoutes);
-// app.use('/api/reports', reportRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/assets', assetRoutes);
+app.use('/api/reports', reportRoutes);
 
 // ============================================
 // 404 Handler
