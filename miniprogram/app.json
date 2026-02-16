@@ -1,47 +1,14 @@
 {
   "pages": [
-    "pages/login/index",
     "pages/index/index",
-    "pages/transactions/index",
-    "pages/transactions/add",
-    "pages/assets/index",
-    "pages/reports/index",
-    "pages/profile/index"
+    "pages/stock-detail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#667eea",
-    "navigationBarTitleText": "财富追踪",
+    "navigationBarTitleText": "📈 股票追踪",
     "navigationBarTextStyle": "white",
     "navigationStyle": "default"
-  },
-  "tabBar": {
-    "borderStyle": "black",
-    "color": "#999",
-    "selectedColor": "#667eea",
-    "backgroundColor": "#fff",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "💰 首页"
-      },
-      {
-        "pagePath": "pages/transactions/index",
-        "text": "💳 交易"
-      },
-      {
-        "pagePath": "pages/assets/index",
-        "text": "🏦 资产"
-      },
-      {
-        "pagePath": "pages/reports/index",
-        "text": "📊 报表"
-      },
-      {
-        "pagePath": "pages/profile/index",
-        "text": "👤 我的"
-      }
-    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

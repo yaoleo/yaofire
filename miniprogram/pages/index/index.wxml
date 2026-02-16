@@ -1,27 +1,9 @@
-<!--首页 - 仪表板-->
-<view class="index-container">
+<!-- 首页 - 股票价格追踪 -->
+<view class="page" enable-pull-down-refresh="true">
   <!-- 头部 -->
   <view class="header">
-    <text class="title">💰 财富追踪</text>
-    <text class="subtitle">你好，{{userInfo.name}}</text>
-  </view>
-
-  <!-- 统计卡片 -->
-  <view class="stats-container" wx:if="{{!loading && summary}}">
-    <view class="stat-card income">
-      <text class="label">本月收入</text>
-      <text class="value">¥{{summary.income}}</text>
-    </view>
-
-    <view class="stat-card expense">
-      <text class="label">本月支出</text>
-      <text class="value">¥{{summary.expense}}</text>
-    </view>
-
-    <view class="stat-card net">
-      <text class="label">净收入</text>
-      <text class="value">¥{{summary.net}}</text>
-    </view>
+    <text class="title">📈 股票追踪</text>
+    <text class="subtitle">实时股票价格走势</text>
   </view>
 
   <!-- 加载状态 -->
@@ -29,55 +11,48 @@
     <text>加载中...</text>
   </view>
 
-  <!-- 快速操作 -->
-  <view class="quick-actions">
-    <view class="action-item" bindtap="goToAddTransaction">
-      <text class="icon">➕</text>
-      <text class="text">记录交易</text>
-    </view>
-
-    <view class="action-item" bindtap="goToTransactions">
-      <text class="icon">📋</text>
-      <text class="text">交易列表</text>
-    </view>
-
-    <view class="action-item" bindtap="goToAssets">
-      <text class="icon">💎</text>
-      <text class="text">资产管理</text>
-    </view>
-
-    <view class="action-item" bindtap="goToReports">
-      <text class="icon">📊</text>
-      <text class="text">数据报表</text>
-    </view>
+  <!-- 错误提示 -->
+  <view class="error-message" wx:if="{{error && !loading}}">
+    <text>{{error}}</text>
+    <button class="btn-retry" bindtap="loadStocks">重试</button>
   </view>
 
-  <!-- 最近交易 -->
-  <view class="recent-section">
-    <view class="section-header">
-      <text class="title">最近交易</text>
-      <navigator url="/pages/transactions/index" class="link">查看更多</navigator>
-    </view>
+  <!-- 股票列表 -->
+  <view class="stocks-list" wx:if="{{!loading && stocks.length > 0}}">
+    <view class="stock-item" wx:for="{{stocks}}" wx:key="id" bindtap="goToDetail" data-symbol="{{item.symbol}}">
+      <!-- 左侧：股票信息 -->
+      <view class="stock-info">
+        <view class="stock-header">
+          <text class="stock-symbol">{{item.symbol}}</text>
+          <text class="stock-name">{{item.name}}</text>
+        </view>
+        <text class="stock-sector">{{item.sector}}</text>
+      </view>
 
-    <view class="recent-list" wx:if="{{recentTransactions && recentTransactions.length}}">
-      <view class="list-item" wx:for="{{recentTransactions}}" wx:key="id">
-        <view class="item-left">
-          <text class="item-title">{{item.category_name}}</text>
-          <text class="item-date">{{item.transaction_date}}</text>
-        </view>
-        <view class="item-right">
-          <text class="item-amount {{item.type}}">{{item.type === 'income' ? '+' : '-'}}¥{{item.amount}}</text>
-        </view>
+      <!-- 右侧：价格信息 -->
+      <view class="stock-price">
+        <text class="current-price">${{item.currentPrice.toFixed(2)}}</text>
+        <text class="change {{item.changePercent >= 0 ? 'up' : 'down'}}">
+          {{item.changePercent >= 0 ? '+' : ''}}{{item.changePercent.toFixed(2)}}%
+        </text>
       </view>
     </view>
 
-    <view class="empty" wx:if="{{!recentTransactions || !recentTransactions.length}}">
-      <text>暂无交易记录</text>
+    <!-- 更新时间 -->
+    <view class="update-time">
+      <text>上次更新：{{lastUpdateTime}}</text>
     </view>
   </view>
 
-  <!-- 浮动按钮 -->
-  <view class="fab" bindtap="goToAddTransaction">
-    <text>➕</text>
+  <!-- 操作按钮 -->
+  <view class="actions" wx:if="{{!loading}}">
+    <button class="btn-primary" bindtap="showTopGainers">
+      🚀 涨幅排行
+    </button>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!loading && stocks.length === 0 && !error}}">
+    <text>暂无数据</text>
   </view>
 </view>
